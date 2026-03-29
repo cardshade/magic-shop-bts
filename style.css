@@ -1,0 +1,54 @@
+/* 1. Настраиваем всё окно браузера */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Чтобы не было полос прокрутки */
+    background-color: #050505; /* Цвет глубокого космоса */
+    display: flex;
+    justify-content: center; /* Центрируем карточку по горизонтали */
+    align-items: center;     /* Центрируем карточку по вертикали */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 2. Настраиваем холст для будущих звезд */
+#stars {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* 3. Делаем карточку "стеклянной" */
+.card {
+    background: rgba(255, 255, 255, 0.1); /* Полупрозрачный белый */
+    backdrop-filter: blur(12px); /* Эффект размытия (матовое стекло) */
+    padding: 40px;
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    max-width: 450px;
+    color: white;
+    box-shadow: 0 0 40px rgba(108, 92, 231, 0.4); /* Фиолетовое свечение */
+}
+
+/* 4. Красивая кнопка */
+button {
+    background: linear-gradient(45deg, #6c5ce7, #a29bfe); /* Градиент BTS */
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 30px;
+    transition: 0.3s; /* Чтобы плавно менялось при наведении */
+}
+
+button:hover {
+    transform: scale(1.1); /* Кнопка немного увеличится при наведении */
+    box-shadow: 0 0 20px #6c5ce7;
+}
