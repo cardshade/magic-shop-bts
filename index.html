@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BTS Space Quotes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Marck+Script&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,14 +12,22 @@
     <div class="shooting-star"></div>
     <div class="shooting-star"></div>
 
-    <div class="card">
+    <div class="card" id="main-card">
         <h1 id="title">BTS Universe</h1>
         <p id="quote">Welcome to the Magic Shop.</p>
-        <cite id="song">Click the button to find your comfort</cite>
+        <cite id="song">Find your comfort here</cite>
         <br>
         <button id="new-quote">Magic Shop</button>
     </div>
 
+    <div id="butterfly-scene" style="display: none; opacity: 0;">
+        <div id="butterfly-group">
+            <div class="butterfly" id="bf1"></div>
+            <div class="butterfly" id="bf2"></div>
+            <div class="butterfly" id="bf3"></div>
+        </div>
+        <div id="secret-text-area"></div>
+    </div>
+
     <script src="script.js"></script>
 </body>
-</html>
