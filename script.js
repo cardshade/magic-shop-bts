@@ -13,10 +13,15 @@ const textArea = document.getElementById('secret-text-area');
 const quoteEl = document.getElementById('quote');
 const songEl = document.getElementById('song');
 
+// ПРАВИЛЬНОЕ ОБЪЯВЛЕНИЕ (только один раз)
 let count = 0;
 let isSecretFound = false;
+let isSceneStarted = false; 
 
 button.addEventListener('click', () => {
+    // Если сцена уже была запущена, кнопка больше ничего не делает
+    if (isSceneStarted) return; 
+
     if (count < 6) {
         count++;
         const rand = Math.floor(Math.random() * quotes.length);
@@ -30,6 +35,9 @@ button.addEventListener('click', () => {
         button.style.background = "gold"; 
         button.style.color = "black";
     } else {
+        // Устанавливаем предохранитель
+        isSceneStarted = true; 
+        
         card.style.opacity = '0';
         setTimeout(() => {
             card.style.display = 'none';

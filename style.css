@@ -80,16 +80,22 @@ body::before {
 /* СЦЕНА С ШАРИКАМИ */
 #butterfly-scene {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: none; /* Это ВАЖНО: сцена полностью скрыта и не мешает кликам */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    z-index: 1000; /* Поднимаем выше всех */
-    background: radial-gradient(circle at 50% 50%, #1b2735 0%, #090a0f 100%); /* Фон для сцены */
+    z-index: 100;
+    opacity: 0;
+    transition: opacity 1s;
+    pointer-events: none;
+    
+    /* УДАЛИ ЭТУ СТРОКУ Совсем: */
+    /* background: radial-gradient(circle at 50% 50%, #1b2735 0%, #090a0f 100%); */
+    
+    /* Вместо нее можно оставить прозрачность: */
+    background: transparent; 
 }
 #butterfly-group {
     position: relative; width: 160px; height: 160px; margin-bottom: 40px;
@@ -146,20 +152,14 @@ body::before {
     }
 
     /* Главный контейнер для шариков и текста */
-    #butterfly-scene {
-    top: 0; left: 0; 
-    width: 100%; height: 100%;
-    display: none; 
-    flex-direction: column; 
-    align-items: center; 
-    justify-content: center;
-    z-index: 100; 
-    opacity: 0; 
-    transition: opacity 1s;
-    /* ДОБАВЬ ЭТУ СТРОЧКУ НИЖЕ: */
-    pointer-events: none; 
+#butterfly-scene {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: center !important;
+    background: transparent !important; /* ГАРАНТИРУЕМ ПРОЗРАЧНОСТЬ */
+    padding: 20px 0;
 }
-
     /* Группа шариков */
     #butterfly-group {
         position: relative !important;
