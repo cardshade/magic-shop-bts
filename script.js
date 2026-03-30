@@ -189,36 +189,45 @@ function finishSecretScene() {
     btn.style.cursor = "pointer";
     btn.style.borderRadius = "20px";
 
-    btn.onclick = () => { 
-        // 1. Сначала отправляем сигнал в Телеграм (твое уведомление)
-        sendNotification(); 
-        
-        // 2. ПОКАЗЫВАЕМ ТО САМОЕ СООБЩЕНИЕ (которое пропало)
-        alert("✨ Они улетели к хозяйке передать весточку... ✨"); 
-        
-        // 3. ЗАКРЫВАЕМ ЗАМОК (чтобы магия не повторялась)
-        isEverythingFinished = true; 
-        
-        // 4. ПЛАВНО ПРЯЧЕМ СЦЕНУ И ВОЗВРАЩАЕМ ЦИТАТЫ
-        const scene = document.getElementById('butterfly-scene');
-        scene.style.opacity = '0';
-        
-        setTimeout(() => {
-            scene.style.display = 'none';
+        btn.onclick = () => { 
+            // 1. Уведомление и фраза
+            sendNotification(); 
+            alert("✨ Они улетели к хозяйке передать весточку... ✨"); 
             
-            const mainCard = document.getElementById('main-card');
-            mainCard.style.display = 'block';
-            setTimeout(() => mainCard.style.opacity = '1', 50);
+            // 2. ЗАКРЫВАЕМ ЗАМОК
+            isEverythingFinished = true; 
             
-            button.innerText = "New Quote";
-            button.style.background = ""; 
-            button.style.color = "";
-            button.style.boxShadow = "none";
+            // 3. ОЧИЩАЕМ СОДЕРЖИМОЕ СЕКРЕТНОЙ ОБЛАСТИ (Важно!)
+            // Это уберет кнопку "Отпустить" физически, чтобы она не мешала первой кнопке
+            textArea.innerHTML = ""; 
             
-            showRandomQuote();
-        }, 1000);
-    };
+            // 4. ПЛАВНО ПРЯЧЕМ СЦЕНУ
+            const scene = document.getElementById('butterfly-scene');
+            scene.style.opacity = '0';
+            scene.style.pointerEvents = 'none'; // Делаем слой "призраком"
     
-    // Добавляем кнопку в текстовую область
-    textArea.appendChild(btn);
-}
+            setTimeout(() => {
+                scene.style.display = 'none';
+                
+                // ВОЗВРАЩАЕМ ГЛАВНУЮ КАРТОЧКУ
+                const mainCard = document.getElementById('main-card');
+                mainCard.style.display = 'block';
+                mainCard.style.pointerEvents = 'auto'; // Включаем клики обратно
+                
+                setTimeout(() => {
+                    mainCard.style.opacity = '1';
+                    
+                    // СБРАСЫВАЕМ ГЛАВНУЮ КНОПКУ К ОРИГИНАЛУ
+                    button.innerText = "New Quote";
+                    button.style.background = ""; 
+                    button.style.color = "";
+                    button.style.boxShadow = "none";
+                    button.disabled = false; // На всякий случай включаем её
+                    
+                    showRandomQuote();
+                }, 50);
+            }, 1000);
+        };
+    
+        textArea.appendChild(btn);
+    }
