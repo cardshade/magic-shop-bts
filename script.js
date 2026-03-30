@@ -46,6 +46,7 @@ function startButterflyScene() {
     const bf3 = document.getElementById('bf3');
 
     scene.style.display = 'flex';
+    scene.style.pointerEvents = 'auto';
     setTimeout(() => scene.style.opacity = '1', 50);
 
     // Слетание шариков
