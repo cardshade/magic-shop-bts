@@ -128,19 +128,26 @@ body::before {
     padding: 12px 25px; border-radius: 50px; font-weight: bold;
     cursor: pointer; border: none; margin-top: 25px; font-family: 'Poppins';
 }
-/* === УЛУЧШЕННАЯ АДАПТАЦИЯ (ЖЕСТКАЯ ЦЕНТРОВКА) === */
+/* === ЖЕСТКАЯ АДАПТАЦИЯ (УБИРАЕМ СКРОЛЛ) === */
 @media screen and (max-width: 600px) {
-    /* Центрируем саму сцену и заставляем элементы идти друг за другом */
+    /* Запрещаем всей странице скроллиться вбок, чтобы не было "ленты" */
+    body {
+        overflow-x: hidden !important; 
+        width: 100vw; 
+        position: fixed; /* Принудительно фиксируем на экране */
+    }
+
     #butterfly-scene {
         justify-content: flex-start; /* Начинаем сверху */
-        padding-top: 15vh;          /* Отступ от верхнего края */
+        padding-top: 10vh;          /* Небольшой отступ сверху */
+        overflow: hidden;           /* Запрет скролла внутри сцены */
     }
 
     #butterfly-group {
         width: 100px; 
         height: 100px;
-        margin: 0 auto 60px auto;   /* Центрируем шарики и даем отступ вниз */
-        transform: scale(0.8);      /* Немного уменьшаем всю группу шариков */
+        margin: 0 auto 50px auto;   /* Центрируем и даем отступ вниз */
+        transform: scale(0.7);      /* Уменьшаем всю группу для компактности */
     }
 
     /* Уменьшаем шарики */
@@ -149,29 +156,40 @@ body::before {
         height: 15px;
     }
 
-    /* ФИКСИРУЕМ ТЕКСТ */
+    /* === ЖЕСТКИЕ ПРАВИЛА ДЛЯ ТЕКСТА === */
     #secret-text-area {
-        width: 90%;
-        max-width: 320px;           /* Чтобы не вылезал за края экрана */
-        font-size: 1.1rem;          /* Чуть меньше шрифт для компактности */
-        margin: 0 auto;             /* Центровка текста */
-        min-height: 180px;
-        display: flex;
-        align-items: center;        /* Центрируем буквы внутри блока */
-        justify-content: center;
+        width: 85% !important;      /* Текст займет 85% ширины экрана */
+        max-width: 290px !important;/* Жесткий лимит ширины (даже для самых узких телефонов) */
+        font-size: 1.0rem;         /* Чуть меньше шрифт, чтобы фразы влезали */
+        line-height: 1.4;
+        color: #f0e6ff;
+        text-align: center;
+        
+        /* ЦЕНТРОВКА ТЕКСТА */
+        margin: 0 auto !important;  /* Принудительная центровка блока на экране */
+        padding: 10px;
+        
+        /* ПРАВИЛА ПЕРЕНОСА */
+        word-wrap: break-word;     /* Принудительно разбивать длинные слова, если они не влезают */
+        white-space: normal;       /* Разрешить обычные переносы строк */
+        box-sizing: border-box;    /* Учитывать padding в ширине */
+        
+        min-height: 150px;
+        display: block;            /* Убираем flex, чтобы переносы работали естественно */
     }
 
-    /* Поправляем координаты шариков для маленького круга */
+    /* Настройки координат (для компактного круга) */
     .pos1 { top: 0; left: 50%; transform: translateX(-50%); }
     .pos2 { bottom: 0; right: 0; }
     .pos3 { bottom: 0; left: 0; }
 
-    /* Начальная карточка */
+    /* Начальная карточка цитат */
     .card {
-        width: 85%;
-        padding: 1.5rem;
+        width: 80%;
+        padding: 1.2rem;
         margin-top: -5vh;
     }
     
-    #quote { font-size: 1.1rem; }
+    #quote { font-size: 1.0rem; }
+    #new-quote { font-size: 15px; padding: 10px 20px; }
 }
