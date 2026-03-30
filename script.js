@@ -1,53 +1,3 @@
-// === ЧАСТЬ 1: ЗВЕЗДНОЕ НЕБО ===
-const canvas = document.getElementById('stars');
-const ctx = canvas.getContext('2d');
-
-let width, height, stars = [];
-
-// Функция для подстройки размера неба под экран
-function setCanvasSize() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-}
-
-// Создаем 200 случайных звезд
-function createStars() {
-    stars = [];
-    for (let i = 0; i < 200; i++) {
-        stars.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            size: Math.random() * 2,
-            speed: Math.random() * 0.5 + 0.1 // Скорость полета
-        });
-    }
-}
-
-// Рисуем и двигаем звезды (эта функция работает бесконечно)
-function animate() {
-    ctx.clearRect(0, 0, width, height); // Очищаем экран
-    ctx.fillStyle = "white"; // Цвет звезд
-    
-    stars.forEach(star => {
-        ctx.beginPath();
-        ctx.arc(star.x, star.y, star.size, 0, Math.PI * 2);
-        ctx.fill();
-        
-        star.y -= star.speed; // Двигаем звезду вверх
-        if (star.y < 0) star.y = height; // Если улетела, возвращаем вниз
-    });
-    
-    requestAnimationFrame(animate); // Просим браузер отрисовать следующий кадр
-}
-
-// Запускаем космос
-window.addEventListener('resize', setCanvasSize);
-setCanvasSize();
-createStars();
-animate();
-
-
-// === ЧАСТЬ 2: ГЕНЕРАТОР ЦИТАТ ===
 const quotes = [
     { text: "Life goes on, let's live on.", song: "Life Goes On" },
     { text: "I'm the one I should love in this world.", song: "Epiphany" },
@@ -61,13 +11,49 @@ const quoteText = document.getElementById('quote');
 const songText = document.getElementById('song');
 const button = document.getElementById('new-quote');
 
-// Магия при нажатии на кнопку
-button.addEventListener('click', () => {
-    // Выбираем случайную цитату из списка
+let count = 0;
+let isSecretFound = false;
+let wasSecretShown = false; // ЗАМОК: был ли уже показан секрет?
+
+function updateQuote() {
     const randomIndex = Math.floor(Math.random() * quotes.length);
     const randomQuote = quotes[randomIndex];
-
-    // Красиво меняем текст
     quoteText.innerText = `"${randomQuote.text}"`;
     songText.innerText = `— ${randomQuote.song}`;
+}
+
+button.addEventListener('click', () => {
+    // Если секрет еще НЕ был показан вообще
+    if (!wasSecretShown) {
+        if (!isSecretFound) {
+            count++;
+            if (count === 7) {
+                quoteText.innerText = "Хён, ты нашёл свой собственный Magic Shop!";
+                songText.innerText = "— Special Mystery";
+                button.innerText = "ОТКРЫТЬ ПОСЛАНИЕ";
+                button.style.background = "gold";
+                button.style.color = "black";
+                isSecretFound = true; 
+            } else {
+                updateQuote();
+            }
+        } else {
+            // Когда нажал на "Открыть послание"
+            alert("forever and ever 💜");
+            
+            // Сбрасываем вид кнопки
+            button.innerText = "Magic Shop";
+            button.style.background = "";
+            button.style.color = "";
+            
+            // ЗАКРЫВАЕМ ЗАМОК НАВСЕГДА
+            wasSecretShown = true; 
+            isSecretFound = false;
+            updateQuote();
+        }
+    } else {
+        // Если секрет уже был показан один раз, просто крутим цитаты
+        updateQuote();
+    }
 });
+
