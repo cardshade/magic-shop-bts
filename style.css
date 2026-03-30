@@ -128,39 +128,50 @@ body::before {
     padding: 12px 25px; border-radius: 50px; font-weight: bold;
     cursor: pointer; border: none; margin-top: 25px; font-family: 'Poppins';
 }
-/* === АДАПТАЦИЯ ПОД ТЕЛЕФОНЫ === */
+/* === УЛУЧШЕННАЯ АДАПТАЦИЯ (ЖЕСТКАЯ ЦЕНТРОВКА) === */
 @media screen and (max-width: 600px) {
-    /* Поднимаем группу шариков выше, чтобы они не перекрывали текст */
+    /* Центрируем саму сцену и заставляем элементы идти друг за другом */
+    #butterfly-scene {
+        justify-content: flex-start; /* Начинаем сверху */
+        padding-top: 15vh;          /* Отступ от верхнего края */
+    }
+
     #butterfly-group {
-        width: 120px;
-        height: 120px;
-        margin-bottom: 80px; /* Увеличиваем отступ до текста */
-        margin-top: -50px;    /* Сдвигаем всю группу вверх */
+        width: 100px; 
+        height: 100px;
+        margin: 0 auto 60px auto;   /* Центрируем шарики и даем отступ вниз */
+        transform: scale(0.8);      /* Немного уменьшаем всю группу шариков */
     }
 
-    /* Уменьшаем размер шариков, чтобы круг был компактнее */
+    /* Уменьшаем шарики */
     .butterfly {
-        width: 18px;
-        height: 18px;
+        width: 15px;
+        height: 15px;
     }
 
-    /* Настраиваем текст, чтобы он был читабельным и не вылезал за края */
+    /* ФИКСИРУЕМ ТЕКСТ */
     #secret-text-area {
-        font-size: 1.2rem;   /* Чуть меньше шрифт */
-        line-height: 1.4;
         width: 90%;
-        min-height: 150px;   /* Резервируем место под длинные фразы */
+        max-width: 320px;           /* Чтобы не вылезал за края экрана */
+        font-size: 1.1rem;          /* Чуть меньше шрифт для компактности */
+        margin: 0 auto;             /* Центровка текста */
+        min-height: 180px;
+        display: flex;
+        align-items: center;        /* Центрируем буквы внутри блока */
+        justify-content: center;
     }
 
-    /* Делаем карточку (начальную) чуть компактнее */
+    /* Поправляем координаты шариков для маленького круга */
+    .pos1 { top: 0; left: 50%; transform: translateX(-50%); }
+    .pos2 { bottom: 0; right: 0; }
+    .pos3 { bottom: 0; left: 0; }
+
+    /* Начальная карточка */
     .card {
+        width: 85%;
         padding: 1.5rem;
-        width: 80%;
+        margin-top: -5vh;
     }
     
-    /* Кнопку тоже немного поменьше для удобства */
-    #new-quote {
-        padding: 12px 25px;
-        font-size: 16px;
-    }
+    #quote { font-size: 1.1rem; }
 }
