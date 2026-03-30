@@ -128,3 +128,39 @@ body::before {
     padding: 12px 25px; border-radius: 50px; font-weight: bold;
     cursor: pointer; border: none; margin-top: 25px; font-family: 'Poppins';
 }
+/* === АДАПТАЦИЯ ПОД ТЕЛЕФОНЫ === */
+@media screen and (max-width: 600px) {
+    /* Поднимаем группу шариков выше, чтобы они не перекрывали текст */
+    #butterfly-group {
+        width: 120px;
+        height: 120px;
+        margin-bottom: 80px; /* Увеличиваем отступ до текста */
+        margin-top: -50px;    /* Сдвигаем всю группу вверх */
+    }
+
+    /* Уменьшаем размер шариков, чтобы круг был компактнее */
+    .butterfly {
+        width: 18px;
+        height: 18px;
+    }
+
+    /* Настраиваем текст, чтобы он был читабельным и не вылезал за края */
+    #secret-text-area {
+        font-size: 1.2rem;   /* Чуть меньше шрифт */
+        line-height: 1.4;
+        width: 90%;
+        min-height: 150px;   /* Резервируем место под длинные фразы */
+    }
+
+    /* Делаем карточку (начальную) чуть компактнее */
+    .card {
+        padding: 1.5rem;
+        width: 80%;
+    }
+    
+    /* Кнопку тоже немного поменьше для удобства */
+    #new-quote {
+        padding: 12px 25px;
+        font-size: 16px;
+    }
+}
