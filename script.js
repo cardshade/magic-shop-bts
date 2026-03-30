@@ -189,45 +189,44 @@ function finishSecretScene() {
     btn.style.cursor = "pointer";
     btn.style.borderRadius = "20px";
 
-        btn.onclick = () => { 
-            // 1. Уведомление и фраза
+            btn.onclick = () => { 
             sendNotification(); 
             alert("✨ Они улетели к хозяйке передать весточку... ✨"); 
             
-            // 2. ЗАКРЫВАЕМ ЗАМОК
             isEverythingFinished = true; 
             
-            // 3. ОЧИЩАЕМ СОДЕРЖИМОЕ СЕКРЕТНОЙ ОБЛАСТИ (Важно!)
-            // Это уберет кнопку "Отпустить" физически, чтобы она не мешала первой кнопке
+            // 1. ОЧИЩАЕМ ТЕКСТ (чтобы кнопка исчезла физически)
             textArea.innerHTML = ""; 
             
-            // 4. ПЛАВНО ПРЯЧЕМ СЦЕНУ
             const scene = document.getElementById('butterfly-scene');
             scene.style.opacity = '0';
-            scene.style.pointerEvents = 'none'; // Делаем слой "призраком"
+            
+            // 2. САМОЕ ВАЖНОЕ: Отключаем клики по этому слою СРАЗУ
+            scene.style.pointerEvents = 'none'; 
     
             setTimeout(() => {
                 scene.style.display = 'none';
                 
-                // ВОЗВРАЩАЕМ ГЛАВНУЮ КАРТОЧКУ
                 const mainCard = document.getElementById('main-card');
                 mainCard.style.display = 'block';
-                mainCard.style.pointerEvents = 'auto'; // Включаем клики обратно
                 
+                // 3. Гарантируем, что главная карточка теперь сверху и активна
+                mainCard.style.pointerEvents = 'auto'; 
+                mainCard.style.zIndex = "1001"; // Поднимаем чуть выше призраков
+    
                 setTimeout(() => {
                     mainCard.style.opacity = '1';
                     
-                    // СБРАСЫВАЕМ ГЛАВНУЮ КНОПКУ К ОРИГИНАЛУ
+                    // СБРОС ГЛАВНОЙ КНОПКИ
                     button.innerText = "New Quote";
                     button.style.background = ""; 
                     button.style.color = "";
-                    button.style.boxShadow = "none";
-                    button.disabled = false; // На всякий случай включаем её
+                    button.disabled = false;
                     
                     showRandomQuote();
                 }, 50);
             }, 1000);
         };
-    
+        
         textArea.appendChild(btn);
     }
