@@ -128,68 +128,74 @@ body::before {
     padding: 12px 25px; border-radius: 50px; font-weight: bold;
     cursor: pointer; border: none; margin-top: 25px; font-family: 'Poppins';
 }
-/* === ЖЕСТКАЯ АДАПТАЦИЯ (УБИРАЕМ СКРОЛЛ) === */
+/* === ПОЛНАЯ МОБИЛЬНАЯ ПЕРЕСБОРКА === */
 @media screen and (max-width: 600px) {
-    /* Запрещаем всей странице скроллиться вбок, чтобы не было "ленты" */
-    body {
-        overflow-x: hidden !important; 
-        width: 100vw; 
-        position: fixed; /* Принудительно фиксируем на экране */
+    /* 1. Блокируем скролл намертво */
+    html, body {
+        overflow: hidden !important;
+        position: fixed;
+        width: 100%;
+        height: 100%;
     }
 
+    /* 2. Центрируем сцену через Flex */
     #butterfly-scene {
-        justify-content: flex-start; /* Начинаем сверху */
-        padding-top: 10vh;          /* Небольшой отступ сверху */
-        overflow: hidden;           /* Запрет скролла внутри сцены */
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important; /* Всё строго в центр */
+        padding: 0;
+        margin: 0;
     }
 
+    /* 3. Ограничиваем группу шариков */
     #butterfly-group {
-        width: 100px; 
-        height: 100px;
-        margin: 0 auto 50px auto;   /* Центрируем и даем отступ вниз */
-        transform: scale(0.7);      /* Уменьшаем всю группу для компактности */
+        position: relative !important;
+        width: 120px !important; 
+        height: 120px !important;
+        margin: 0 0 40px 0 !important; /* Только отступ вниз к тексту */
+        transform: scale(0.8) !important;
+        left: auto !important; /* Сбрасываем старые смещения */
+        top: auto !important;
     }
 
-    /* Уменьшаем шарики */
+    /* 4. ШАРИКИ: Пересчитываем их позиции для маленького круга */
     .butterfly {
-        width: 15px;
-        height: 15px;
-    }
-
-    /* === ЖЕСТКИЕ ПРАВИЛА ДЛЯ ТЕКСТА === */
-    #secret-text-area {
-        width: 85% !important;      /* Текст займет 85% ширины экрана */
-        max-width: 290px !important;/* Жесткий лимит ширины (даже для самых узких телефонов) */
-        font-size: 1.0rem;         /* Чуть меньше шрифт, чтобы фразы влезали */
-        line-height: 1.4;
-        color: #f0e6ff;
-        text-align: center;
-        
-        /* ЦЕНТРОВКА ТЕКСТА */
-        margin: 0 auto !important;  /* Принудительная центровка блока на экране */
-        padding: 10px;
-        
-        /* ПРАВИЛА ПЕРЕНОСА */
-        word-wrap: break-word;     /* Принудительно разбивать длинные слова, если они не влезают */
-        white-space: normal;       /* Разрешить обычные переносы строк */
-        box-sizing: border-box;    /* Учитывать padding в ширине */
-        
-        min-height: 150px;
-        display: block;            /* Убираем flex, чтобы переносы работали естественно */
-    }
-
-    /* Настройки координат (для компактного круга) */
-    .pos1 { top: 0; left: 50%; transform: translateX(-50%); }
-    .pos2 { bottom: 0; right: 0; }
-    .pos3 { bottom: 0; left: 0; }
-
-    /* Начальная карточка цитат */
-    .card {
-        width: 80%;
-        padding: 1.2rem;
-        margin-top: -5vh;
+        width: 16px !important;
+        height: 16px !important;
     }
     
-    #quote { font-size: 1.0rem; }
-    #new-quote { font-size: 15px; padding: 10px 20px; }
+    /* Жестко задаем им места в маленьком круге */
+    .pos1 { top: 0 !important; left: 50% !important; transform: translateX(-50%) !important; }
+    .pos2 { bottom: 0 !important; right: 0 !important; top: auto !important; left: auto !important; transform: none !important; }
+    .pos3 { bottom: 0 !important; left: 0 !important; top: auto !important; right: auto !important; transform: none !important; }
+
+    /* 5. ТЕКСТ: Никаких вылетов */
+    #secret-text-area {
+        width: 90% !important;
+        max-width: 300px !important;
+        min-height: auto !important;
+        font-size: 1.1rem !important;
+        line-height: 1.4 !important;
+        text-align: center !important;
+        margin: 0 !important;
+        padding: 0 10px !important;
+        word-wrap: break-word !important;
+        display: block !important;
+        position: relative !important;
+    }
+
+    /* 6. Кнопка в конце */
+    .final-magic-button {
+        width: 100% !important;
+        font-size: 14px !important;
+        white-space: normal !important; /* Чтобы текст в кнопке переносился */
+    }
+
+    /* Начальная карточка */
+    .card {
+        width: 85% !important;
+        max-width: 300px !important;
+        padding: 20px !important;
+    }
 }
