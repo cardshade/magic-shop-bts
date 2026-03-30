@@ -1,3 +1,9 @@
+// 1. Твои переменные-состояния (флаги)
+let count = 0;
+let isSecretFound = false;
+let isEverythingFinished = false; // Наш "одноразовый замок"
+
+// 2. Массив цитат
 const quotes = [
     { text: "Life goes on, let's live on.", song: "Life Goes On" },
     { text: "I'm the one I should love in this world.", song: "Epiphany" },
@@ -7,26 +13,24 @@ const quotes = [
     { text: "Go on your path, even if you live for a day.", song: "No More Dream" }
 ];
 
+// 3. Ссылки на элементы HTML
 const button = document.getElementById('new-quote');
 const card = document.getElementById('main-card');
 const textArea = document.getElementById('secret-text-area');
 const quoteEl = document.getElementById('quote');
 const songEl = document.getElementById('song');
 
-// ПРАВИЛЬНОЕ ОБЪЯВЛЕНИЕ (только один раз)
-let count = 0;
-let isSecretFound = false;
-let isSceneStarted = false; 
-
+// 4. Логика кнопки (обновленная)
 button.addEventListener('click', () => {
-    // Если сцена уже была запущена, кнопка больше ничего не делает
-    if (isSceneStarted) return; 
+    // Если "замок" закрыт — просто мешаем цитаты и выходим
+    if (isEverythingFinished) {
+        showRandomQuote();
+        return;
+    }
 
     if (count < 6) {
         count++;
-        const rand = Math.floor(Math.random() * quotes.length);
-        quoteEl.innerText = `"${quotes[rand].text}"`;
-        songEl.innerText = `— ${quotes[rand].song}`;
+        showRandomQuote();
     } else if (count === 6 && !isSecretFound) {
         isSecretFound = true;
         quoteEl.innerText = "Хён, ты нашёл свой собственный Magic Shop!";
@@ -34,10 +38,9 @@ button.addEventListener('click', () => {
         button.innerText = "ОТКРЫТЬ ПОСЛАНИЕ";
         button.style.background = "gold"; 
         button.style.color = "black";
-    } else {
-        // Устанавливаем предохранитель
-        isSceneStarted = true; 
-        
+        button.style.boxShadow = "0 0 20px gold";
+    } else if (isSecretFound) {
+        // Запускаем переход к шарикам
         card.style.opacity = '0';
         setTimeout(() => {
             card.style.display = 'none';
@@ -46,6 +49,12 @@ button.addEventListener('click', () => {
     }
 });
 
+// Вспомогательная функция для цитат
+function showRandomQuote() {
+    const rand = Math.floor(Math.random() * quotes.length);
+    quoteEl.innerText = `"${quotes[rand].text}"`;
+    songEl.innerText = `— ${quotes[rand].song}`;
+}
 function startButterflyScene() {
     const scene = document.getElementById('butterfly-scene');
     
@@ -157,26 +166,59 @@ function sendNotification() {
 
 // === ОБНОВЛЕННАЯ ФИНАЛЬНАЯ СЦЕНА ===
 function finishSecretScene() {
-    // Убираем свечение с шариков
+    // 1. Убираем свечение с шариков
     const bfs = [document.getElementById('bf1'), document.getElementById('bf2'), document.getElementById('bf3')];
-    bfs.forEach(b => b.classList.remove('active-fly'));
+    bfs.forEach(b => {
+        if(b) b.classList.remove('active-fly');
+    });
 
-    textArea.innerHTML = "<p style='margin-bottom: 20px;'>Ты всё увидел, Хён?</p>";
+    // 2. Очищаем текстовое поле и готовим его для кнопки
+    textArea.innerHTML = "<p style='margin-bottom: 25px; color: #f0e6ff;'>Ты всё увидел, Хён?</p>";
     
+    // 3. Создаем кнопку заново
     const btn = document.createElement('button');
     btn.innerText = "Я ВСЁ УВИДЕЛ. ОТПУСТИТЬ ВАС.";
-    btn.className = "final-magic-button";
+    btn.className = "final-magic-button"; // Убедись, что этот класс есть в CSS
     
+    // Стилизуем кнопку прямо здесь для надежности
+    btn.style.marginTop = "20px";
+    btn.style.padding = "12px 25px";
+    btn.style.background = "rgba(255, 215, 0, 0.2)";
+    btn.style.border = "1px solid gold";
+    btn.style.color = "gold";
+    btn.style.cursor = "pointer";
+    btn.style.borderRadius = "20px";
+
     btn.onclick = () => { 
-        // 1. Сначала отправляем тебе сигнал в Телеграм
+        // 1. Сначала отправляем сигнал в Телеграм (твое уведомление)
         sendNotification(); 
         
-        // 2. Показываем ему прощальное сообщение
+        // 2. ПОКАЗЫВАЕМ ТО САМОЕ СООБЩЕНИЕ (которое пропало)
         alert("✨ Они улетели к хозяйке передать весточку... ✨"); 
         
-        // 3. Перезагружаем страницу
-        location.reload(); 
+        // 3. ЗАКРЫВАЕМ ЗАМОК (чтобы магия не повторялась)
+        isEverythingFinished = true; 
+        
+        // 4. ПЛАВНО ПРЯЧЕМ СЦЕНУ И ВОЗВРАЩАЕМ ЦИТАТЫ
+        const scene = document.getElementById('butterfly-scene');
+        scene.style.opacity = '0';
+        
+        setTimeout(() => {
+            scene.style.display = 'none';
+            
+            const mainCard = document.getElementById('main-card');
+            mainCard.style.display = 'block';
+            setTimeout(() => mainCard.style.opacity = '1', 50);
+            
+            button.innerText = "New Quote";
+            button.style.background = ""; 
+            button.style.color = "";
+            button.style.boxShadow = "none";
+            
+            showRandomQuote();
+        }, 1000);
     };
     
+    // Добавляем кнопку в текстовую область
     textArea.appendChild(btn);
 }
