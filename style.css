@@ -79,11 +79,18 @@ body::before {
 
 /* СЦЕНА С ШАРИКАМИ */
 #butterfly-scene {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    display: none; flex-direction: column; align-items: center; justify-content: center;
-    z-index: 100; opacity: 0; transition: opacity 1s;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; /* Это ВАЖНО: сцена полностью скрыта и не мешает кликам */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000; /* Поднимаем выше всех */
+    background: radial-gradient(circle at 50% 50%, #1b2735 0%, #090a0f 100%); /* Фон для сцены */
 }
-
 #butterfly-group {
     position: relative; width: 160px; height: 160px; margin-bottom: 40px;
     display: flex; justify-content: center; align-items: center;
@@ -130,7 +137,6 @@ body::before {
 }
 /* === МОБИЛЬНАЯ ВЕРСИЯ: ВОЗВРАЩАЕМ МАГИЮ И ЦЕНТРУЕМ === */
 @media screen and (max-width: 600px) {
-    /* Убираем скролл, но мягко */
     html, body {
         overflow-x: hidden;
         width: 100%;
@@ -141,7 +147,6 @@ body::before {
 
     /* Главный контейнер для шариков и текста */
     #butterfly-scene {
-    position: fixed; 
     top: 0; left: 0; 
     width: 100%; height: 100%;
     display: none; 

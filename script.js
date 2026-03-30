@@ -40,6 +40,16 @@ button.addEventListener('click', () => {
 
 function startButterflyScene() {
     const scene = document.getElementById('butterfly-scene');
+    
+    // Сначала делаем сцену видимой для браузера
+    scene.style.display = 'flex'; 
+    
+    // Даем маленькую задержку, чтобы сработал переход opacity
+    setTimeout(() => {
+        scene.style.opacity = '1';
+    }, 50);
+
+    // Дальше идет твой код с шариками...
     const group = document.getElementById('butterfly-group');
     const bf1 = document.getElementById('bf1');
     const bf2 = document.getElementById('bf2');
