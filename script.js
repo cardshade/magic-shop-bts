@@ -114,7 +114,7 @@ function startButterflyScene() {
         { t: "А на тебе — всё остальное. И учти: за водой её одну не отправляй. Либо вместе, либо ты сам.", s: "bf1" },
         { t: "Она просто плохо ориентируется в пространстве... 🤭", s: "bf2" },
         { t: "Нам было весело хранить это всё...", s: "bf3" },
-        { t: "То, что ты всё это увидел — привилегия человека, который первым сюда зашёл.", s: "bf3" },
+        { t: "То, что ты всё это увидел — привилегия человека, который первым сюда зашёл. Ей показалось хорошей идеей сделать что-то особенное для первого человека, который войдет сюда", s: "bf3" },
         { t: "Поэтому сообщи ей, что ты всё увидел, чтобы она нас отпустила!", s: "bf1" }
     ];
 
@@ -189,44 +189,37 @@ function finishSecretScene() {
     btn.style.cursor = "pointer";
     btn.style.borderRadius = "20px";
 
-            btn.onclick = () => { 
-            sendNotification(); 
-            alert("✨ Они улетели к хозяйке передать весточку... ✨"); 
+          btn.onclick = () => { 
+        sendNotification(); 
+        alert("✨ Они улетели к хозяйке передать весточку... ✨"); 
+        
+        isEverythingFinished = true; 
+        textArea.innerHTML = ""; 
+        
+        const scene = document.getElementById('butterfly-scene');
+        scene.style.opacity = '0';
+        scene.style.pointerEvents = 'none'; 
+
+        setTimeout(() => {
+            scene.style.display = 'none';
             
-            isEverythingFinished = true; 
+            const mainCard = document.getElementById('main-card');
+            mainCard.style.display = 'block';
             
-            // 1. ОЧИЩАЕМ ТЕКСТ (чтобы кнопка исчезла физически)
-            textArea.innerHTML = ""; 
-            
-            const scene = document.getElementById('butterfly-scene');
-            scene.style.opacity = '0';
-            
-            // 2. САМОЕ ВАЖНОЕ: Отключаем клики по этому слою СРАЗУ
-            scene.style.pointerEvents = 'none'; 
-    
             setTimeout(() => {
-                scene.style.display = 'none';
+                mainCard.style.opacity = '1';
                 
-                const mainCard = document.getElementById('main-card');
-                mainCard.style.display = 'block';
+                // --- ВОТ ЭТИ СТРОЧКИ ИСПРАВЯТ ЦВЕТ ---
+                button.innerText = "New Quote";
+                button.style.background = ""; // Сброс золотого градиента
+                button.style.color = "white"; // Возвращаем белый текст
+                button.style.boxShadow = "none";
+                // ------------------------------------
                 
-                // 3. Гарантируем, что главная карточка теперь сверху и активна
-                mainCard.style.pointerEvents = 'auto'; 
-                mainCard.style.zIndex = "1001"; // Поднимаем чуть выше призраков
-    
-                setTimeout(() => {
-                    mainCard.style.opacity = '1';
-                    
-                    // СБРОС ГЛАВНОЙ КНОПКИ
-                    button.innerText = "New Quote";
-                    button.style.background = ""; 
-                    button.style.color = "";
-                    button.disabled = false;
-                    
-                    showRandomQuote();
-                }, 50);
-            }, 1000);
-        };
+                showRandomQuote();
+            }, 50);
+        }, 1000);
+    };
         
         textArea.appendChild(btn);
     }
